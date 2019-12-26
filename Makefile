@@ -29,14 +29,12 @@ endif
 ifeq ($(PLATFORM), GP2X)
 	CFLAGS += -mcpu=arm920t -mtune=arm920t -ffast-math
 endif
+
 ifeq ($(PLATFORM), UNIX)
 	SDL_CFLAGS := $(shell sdl-config --cflags)
 	SDL_LDFLAGS := $(shell sdl-config --libs)
 	OPT_CFLAGS := -DTARGET_UNIX
 endif
-
-CFLAGS := --std=c99 -pedantic -Wall -Wextra -I$(CURDIR)/src/ $(DEBUG_FLAGS) $(SDL_CFLAGS) $(OPT_CFLAGS)
-LDFLAGS := $(SDL_LDFLAGS) -lSDL_image -ljpeg
 
 ####################################################
 
@@ -63,7 +61,7 @@ obj/%.o : src/%.c
 opk: $(TARGET)
 	rm -rf .opk_data
 	mkdir .opk_data
-	cp o2xiv.png default.gcw0.desktop manual-en.txt .opk_data
+	cp o2xiv.png default.gcw0.desktop default.retrofw.desktop manual-en.txt .opk_data
 	cp $< .opk_data
 	$(STRIP) .opk_data/$<
 	mksquashfs .opk_data o2xiv.opk -all-root -noappend -no-exports -no-xattrs -no-progress >/dev/null
